@@ -34,20 +34,28 @@ MODEL_DIR = BASE_DIR / "models"
 @st.cache_resource
 def load_artifacts():
     try:
+        # Changed from .csv to .xlsx
+        precautions = pd.read_excel(DATA_DIR / "precautions_clean.xlsx")
+        medications = pd.read_excel(DATA_DIR / "medications_clean.xlsx")
+        diets = pd.read_excel(DATA_DIR / "diets_clean.xlsx")
+        workouts = pd.read_excel(DATA_DIR / "workout_clean.xlsx")
+        descriptions = pd.read_excel(DATA_DIR / "description_clean.xlsx")
+        
+        # Load model artifacts (still pickle)
         with open(MODEL_DIR / "label_encoder.pkl", "rb") as f:
             le = pickle.load(f)
         with open(MODEL_DIR / "features.pkl", "rb") as f:
             feature_names = pickle.load(f)
-        
-        precautions = pd.read_csv(DATA_DIR / "precautions_clean.csv")
-        medications = pd.read_csv(DATA_DIR / "medications_clean.csv")
-        diets = pd.read_csv(DATA_DIR / "diets_clean.csv")
-        workouts = pd.read_csv(DATA_DIR / "workout_clean.csv")
-        descriptions = pd.read_csv(DATA_DIR / "description_clean.csv")
-        
+       
         return le, feature_names, precautions, medications, diets, workouts, descriptions
     except Exception as e:
         st.error(f"Failed to load artifacts: {e}")
+        st.error("💡 Make sure you have these files in the **data/** folder:")
+        st.error("• precautions_clean.xlsx")
+        st.error("• medications_clean.xlsx")
+        st.error("• diets_clean.xlsx")
+        st.error("• workout_clean.xlsx")
+        st.error("• description_clean.xlsx")
         st.stop()
 
 le, feature_names, precautions_df, medications_df, diets_df, workouts_df, descriptions_df = load_artifacts()
