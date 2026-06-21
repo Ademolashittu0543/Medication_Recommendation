@@ -34,31 +34,30 @@ MODEL_DIR = BASE_DIR / "models"
 @st.cache_resource
 def load_artifacts():
     try:
-        # Match exact filenames from your GitHub
-        precautions = pd.read_excel(DATA_DIR / "precautions_clean.xls")   # Note: precautions (with 't')
-        medications = pd.read_excel(DATA_DIR / "medications_clean.xls")
-        diets = pd.read_excel(DATA_DIR / "diets_clean.xls")
-        workouts = pd.read_excel(DATA_DIR / "workout_clean.xls")
-        descriptions = pd.read_excel(DATA_DIR / "description_clean.xls")
+        # Using engine='xlrd' for .xls files
+        precautions = pd.read_excel(DATA_DIR / "precautions_clean.xls", engine='xlrd')
+        medications = pd.read_excel(DATA_DIR / "medications_clean.xls", engine='xlrd')
+        diets = pd.read_excel(DATA_DIR / "diets_clean.xls", engine='xlrd')
+        workouts = pd.read_excel(DATA_DIR / "workout_clean.xls", engine='xlrd')
+        descriptions = pd.read_excel(DATA_DIR / "description_clean.xls", engine='xlrd')
         
-        # Load pickle files
+        # Load model files
         with open(MODEL_DIR / "label_encoder.pkl", "rb") as f:
             le = pickle.load(f)
         with open(MODEL_DIR / "features.pkl", "rb") as f:
             feature_names = pickle.load(f)
        
         return le, feature_names, precautions, medications, diets, workouts, descriptions
+    
     except Exception as e:
         st.error(f"Failed to load artifacts: {e}")
-        st.error("**Files found in data/ folder:**")
+        st.info("**Files detected:**")
         try:
-            files = list(DATA_DIR.glob("*.xls*"))
-            for f in files:
-                st.write(f"✓ {f.name}")
+            for file in sorted(DATA_DIR.glob("*.xls*")):
+                st.write(f"✅ {file.name}")
         except:
             pass
         st.stop()
-
 le, feature_names, precautions_df, medications_df, diets_df, workouts_df, descriptions_df = load_artifacts()
 
 @st.cache_resource
