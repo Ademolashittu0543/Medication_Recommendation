@@ -1,3 +1,8 @@
+import os
+os.environ["STREAMLIT_SERVER_ENABLE_CORS"] = "true"
+os.environ["STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION"] = "false"
+
+
 import streamlit as st
 import pandas as pd
 import numpy as np
