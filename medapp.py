@@ -34,14 +34,14 @@ MODEL_DIR = BASE_DIR / "models"
 @st.cache_resource
 def load_artifacts():
     try:
-        # Using engine='xlrd' for .xls files
-        precautions = pd.read_excel(DATA_DIR / "precautions_clean.xls", engine='xlrd')
-        medications = pd.read_excel(DATA_DIR / "medications_clean.xls", engine='xlrd')
-        diets = pd.read_excel(DATA_DIR / "diets_clean.xls", engine='xlrd')
-        workouts = pd.read_excel(DATA_DIR / "workout_clean.xls", engine='xlrd')
-        descriptions = pd.read_excel(DATA_DIR / "description_clean.xls", engine='xlrd')
+        # Read as CSV (even though extension is .xls)
+        precautions = pd.read_csv(DATA_DIR / "precautions_clean.xls")
+        medications = pd.read_csv(DATA_DIR / "medications_clean.xls")
+        diets = pd.read_csv(DATA_DIR / "diets_clean.xls")
+        workouts = pd.read_csv(DATA_DIR / "workout_clean.xls")
+        descriptions = pd.read_csv(DATA_DIR / "description_clean.xls")
         
-        # Load model files
+        # Load pickle files
         with open(MODEL_DIR / "label_encoder.pkl", "rb") as f:
             le = pickle.load(f)
         with open(MODEL_DIR / "features.pkl", "rb") as f:
@@ -51,10 +51,10 @@ def load_artifacts():
     
     except Exception as e:
         st.error(f"Failed to load artifacts: {e}")
-        st.info("**Files detected:**")
+        st.info("**Detected files:**")
         try:
-            for file in sorted(DATA_DIR.glob("*.xls*")):
-                st.write(f"✅ {file.name}")
+            for file in sorted(DATA_DIR.glob("*clean*")):
+                st.write(f"📄 {file.name}")
         except:
             pass
         st.stop()
