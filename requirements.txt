@@ -1,9 +1,8 @@
-streamlit
-pandas
-numpy
-scikit-learn
-matplotlib
-seaborn
-plotly
-python-dotenv
-joblib
+# Minimal & Stable for Streamlit Cloud
+streamlit==1.39.0
+pandas==2.2.3
+numpy==1.26.4
+scikit-learn==1.5.2
+
+# Remove matplotlib/seaborn/plotly for now to avoid build issues
+# You can add them later if needed
