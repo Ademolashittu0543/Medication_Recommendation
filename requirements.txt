@@ -5,6 +5,7 @@ numpy
 scikit-learn
 openpyxl>=3.1.0
 xlrd>=2.0.1
+reportlab
 
 # Remove matplotlib/seaborn/plotly for now to avoid build issues
 # You can add them later if needed
