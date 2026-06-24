@@ -1,5 +1,4 @@
 # Minimal & Stable for Streamlit Cloud
-streamlit
 pandas
 numpy
 scikit-learn
