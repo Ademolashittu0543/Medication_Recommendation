@@ -1,7 +1,5 @@
 # Minimal & Stable for Streamlit Cloud
 streamlit
-pandas
-numpy
 scikit-learn
 openpyxl>=3.1.0
 xlrd>=2.0.1
